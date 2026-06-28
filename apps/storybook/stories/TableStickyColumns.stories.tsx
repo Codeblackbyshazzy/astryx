@@ -207,7 +207,8 @@ export const WithColumnResize: Story = {
       <div style={{maxWidth: 720}}>
         <p style={note}>
           Resize columns by dragging header edges; the pinned Name column stays
-          sticky. Plugins compose: <code>{'{ columnResize, stickyColumns }'}</code>.
+          sticky. Plugins compose:{' '}
+          <code>{'{ columnResize, stickyColumns }'}</code>.
         </p>
         <Table
           data={employees}

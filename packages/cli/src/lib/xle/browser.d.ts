@@ -79,8 +79,17 @@ export function hydrateRegistry(json: SerializedRegistry): object;
 export function serializeRegistry(registry: object): SerializedRegistry;
 export function parse(source: string, opts?: {form?: string}): unknown;
 export function detectForm(source: string): 'compact' | 'outline';
-export function validate(doc: unknown, registry: object, blocks?: XLEBlock[], opts?: {loose?: boolean}): {errors: XLEIssue[]; warnings: XLEIssue[]};
-export function expand(doc: unknown, registry: object, opts?: {componentName?: string}): {code: string; componentsUsed: string[]; states: number; todos: string[]};
+export function validate(
+  doc: unknown,
+  registry: object,
+  blocks?: XLEBlock[],
+  opts?: {loose?: boolean},
+): {errors: XLEIssue[]; warnings: XLEIssue[]};
+export function expand(
+  doc: unknown,
+  registry: object,
+  opts?: {componentName?: string},
+): {code: string; componentsUsed: string[]; states: number; todos: string[]};
 export function toCompact(doc: unknown): string;
 export function toOutline(doc: unknown): string;
 export const ALIAS_TABLE: Record<string, string>;

@@ -24,7 +24,10 @@ import {Text} from '@astryxdesign/core/Text';
 import {Heading} from '@astryxdesign/core/Heading';
 import {Button} from '@astryxdesign/core/Button';
 import {Badge} from '@astryxdesign/core/Badge';
-import {SegmentedControl, SegmentedControlItem} from '@astryxdesign/core/SegmentedControl';
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from '@astryxdesign/core/SegmentedControl';
 import {Banner} from '@astryxdesign/core/Banner';
 import {checkExpression, expandExpression} from '@astryxdesign/cli/xle';
 import xleData from '@/generated/xle-registry.json';
@@ -54,7 +57,11 @@ function useTokenCounter() {
   const [encoder, setEncoder] = useState('est.');
   useEffect(() => {
     let alive = true;
-    (import(/* webpackIgnore: true */ TOKENIZER_URL) as Promise<TokenizerModule>)
+    (
+      import(
+        /* webpackIgnore: true */ TOKENIZER_URL
+      ) as Promise<TokenizerModule>
+    )
       .then(m => {
         if (!alive) {
           return;
@@ -189,7 +196,10 @@ const s = stylex.create({
     paddingBlock: 'var(--spacing-1)',
     paddingInline: 'var(--spacing-2)',
     border: 'none',
-    backgroundColor: {default: 'transparent', ':hover': 'var(--color-background-hover, var(--color-background-muted))'},
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': 'var(--color-background-hover, var(--color-background-muted))',
+    },
     cursor: 'pointer',
     color: 'var(--color-content-primary)',
     borderBottomWidth: '1px',
@@ -197,7 +207,8 @@ const s = stylex.create({
     borderBottomColor: 'var(--color-border-subtle, var(--color-border))',
   },
   rowActive: {
-    backgroundColor: 'var(--color-background-active, var(--color-background-muted))',
+    backgroundColor:
+      'var(--color-background-active, var(--color-background-muted))',
   },
   rowLabel: {fontSize: 'var(--text-sm, 13px)', fontWeight: 600},
   rowExpr: {
@@ -218,7 +229,15 @@ const s = stylex.create({
   min0: {minWidth: 0},
 });
 
-function Metric({label, value, sub}: {label: string; value: string; sub?: string}) {
+function Metric({
+  label,
+  value,
+  sub,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+}) {
   return (
     <div {...stylex.props(s.metric)}>
       <Text type="supporting">{label}</Text>
@@ -240,7 +259,11 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
   const {count: countTokens, encoder} = useTokenCounter();
 
   const check = useMemo(
-    () => checkExpression(expr, xleData.registry, {blocks: xleData.blocks, form: 'auto'}),
+    () =>
+      checkExpression(expr, xleData.registry, {
+        blocks: xleData.blocks,
+        form: 'auto',
+      }),
     [expr],
   );
 
@@ -282,7 +305,10 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
     if (next === 'auto') {
       return;
     }
-    const c = checkExpression(expr, xleData.registry, {blocks: xleData.blocks, form: 'auto'});
+    const c = checkExpression(expr, xleData.registry, {
+      blocks: xleData.blocks,
+      form: 'auto',
+    });
     if (c.ok && c.valid) {
       const converted = next === 'compact' ? c.compact : c.outline;
       if (converted) {
@@ -310,8 +336,8 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
       <VStack gap={1}>
         <Heading level={4}>Layout expression (XLE / XLO)</Heading>
         <Text type="supporting">
-          Write a compressed layout. Validated live against @astryxdesign/core; the
-          expanded TSX and token counts update below.
+          Write a compressed layout. Validated live against @astryxdesign/core;
+          the expanded TSX and token counts update below.
         </Text>
       </VStack>
 
@@ -358,7 +384,11 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
 
       {/* Token economics (BPE via gpt-tokenizer o200k_base; 'est.' until loaded) */}
       <div {...stylex.props(s.metrics)}>
-        <Metric label={`XLE input · ${encoder}`} value={`${inTokens} tok`} sub={`${expr.length} chars`} />
+        <Metric
+          label={`XLE input · ${encoder}`}
+          value={`${inTokens} tok`}
+          sub={`${expr.length} chars`}
+        />
         <Metric
           label={`Output TSX · ${encoder}`}
           value={`${outTokens} tok`}
@@ -366,7 +396,11 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
         />
         <Metric
           label="Expansion"
-          value={inTokens > 0 && outTokens > 0 ? `${(outTokens / inTokens).toFixed(1)}×` : '—'}
+          value={
+            inTokens > 0 && outTokens > 0
+              ? `${(outTokens / inTokens).toFixed(1)}×`
+              : '—'
+          }
           sub="output ÷ input"
         />
       </div>
@@ -398,7 +432,9 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
               <Text type="supporting">
                 {expanded.componentsUsed.length} components
                 {expanded.states ? ` · ${expanded.states} state hooks` : ''}
-                {expanded.todos.length ? ` · ${expanded.todos.length} TODO` : ''}
+                {expanded.todos.length
+                  ? ` · ${expanded.todos.length} TODO`
+                  : ''}
               </Text>
             )}
           </HStack>
@@ -409,7 +445,10 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
       {valid && (
         <VStack gap={1}>
           <Text type="label">Canonical forms</Text>
-          <pre {...stylex.props(s.echo)}>{`compact:\n${check.compact}\n\noutline:\n${check.outline}`}</pre>
+          <pre
+            {...stylex.props(
+              s.echo,
+            )}>{`compact:\n${check.compact}\n\noutline:\n${check.outline}`}</pre>
         </VStack>
       )}
 
@@ -442,13 +481,20 @@ export function XLEPanel({onApplyCode}: {onApplyCode: (code: string) => void}) {
                   <button
                     key={ex.label}
                     type="button"
-                    {...stylex.props(s.row, ex.label === activeLabel && s.rowActive)}
+                    {...stylex.props(
+                      s.row,
+                      ex.label === activeLabel && s.rowActive,
+                    )}
                     onClick={() => pick(ex.label, ex.expr)}>
                     <VStack gap={0} xstyle={s.min0}>
                       <span {...stylex.props(s.rowLabel)}>{ex.label}</span>
-                      <span {...stylex.props(s.rowExpr)}>{ex.expr.replace(/\n/g, ' ⏎ ')}</span>
+                      <span {...stylex.props(s.rowExpr)}>
+                        {ex.expr.replace(/\n/g, ' ⏎ ')}
+                      </span>
                     </VStack>
-                    <span {...stylex.props(s.rowTok)}>{countTokens(ex.expr)} tok</span>
+                    <span {...stylex.props(s.rowTok)}>
+                      {countTokens(ex.expr)} tok
+                    </span>
                   </button>
                 ))}
               </div>

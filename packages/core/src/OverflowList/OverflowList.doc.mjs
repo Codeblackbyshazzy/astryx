@@ -18,6 +18,23 @@ export const docs = {
     'clamp',
     'responsive',
   ],
+  playground: {
+    // children is required; without seeded items the properties-tab preview
+    // renders an empty list. Provide a few items so the preview is meaningful.
+    // `observeParent` measures the (full-width) preview container instead of
+    // the list's own collapsed content box, so the row shows all items rather
+    // than collapsing to one.
+    defaults: {
+      behavior: 'observeParent',
+      children: [
+        {__element: 'Button', props: {label: 'Overview', variant: 'secondary'}},
+        {__element: 'Button', props: {label: 'Activity', variant: 'secondary'}},
+        {__element: 'Button', props: {label: 'Settings', variant: 'secondary'}},
+        {__element: 'Button', props: {label: 'Members', variant: 'secondary'}},
+        {__element: 'Button', props: {label: 'Billing', variant: 'secondary'}},
+      ],
+    },
+  },
   props: [
     {
       name: 'children',
