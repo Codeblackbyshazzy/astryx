@@ -35,6 +35,16 @@ export * from './Chat';
 // Drawer — experimental overlay panel
 export {Drawer, type DrawerProps} from './Drawer';
 
+// Stat — experimental KPI/metric display
+export {
+  Stat,
+  type StatProps,
+  type StatDelta,
+  type StatDeltaDirection,
+  type StatDeltaSentiment,
+  type StatSize,
+} from './Stat';
+
 // Schedule — experimental full-calendar views
 export * from './Schedule';
 
