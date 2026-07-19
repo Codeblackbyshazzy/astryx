@@ -434,6 +434,36 @@ const loadingStyles = stylex.create({
   },
 });
 
+/**
+ * "I am the last member of the group" — the trailing end cap.
+ *
+ * NOT `:last-child`: several members render an invisible layer element AFTER
+ * their button (a tooltip'd Button returns button + layer; DropdownMenu returns
+ * trigger + popover). `useLayer` renders those inline rather than portaling
+ * them, so the layer — not the button — took the `:last-child` slot and the real
+ * trailing button silently kept square corners (#2508).
+ *
+ * Layers always carry the native `popover` attribute (useLayer.tsx), and a
+ * popover is never an in-flow member — it is `display: none` until shown, then
+ * promoted to the top layer. So "last member" is: no following element sibling
+ * that isn't a popover.
+ *
+ * Reading it the other way round — marking the *buttons* and testing for a
+ * marked sibling — is the trap: it silently reclassifies anything it doesn't
+ * recognise as "not a member", so a member wrapped in a `display: contents`
+ * wrapper (Tooltip, HoverCard) or a raw child would make the button BEFORE it
+ * round mid-group. Ignoring known layers keeps the predicate conservative: an
+ * unrecognised sibling still counts, exactly as `:last-child` did, so the worst
+ * case degrades to the old behaviour instead of a wrong corner.
+ *
+ * Kept as a same-file const: StyleX only statically evaluates a selector key
+ * from a const in the same file.
+ *
+ * The leading edge still uses `:first-child` — a member's button always precedes
+ * its own layer, so the first button is genuinely `:first-child`.
+ */
+const IS_LAST_ITEM = ':not(:has(~ *:not([popover])))';
+
 const groupStyles = stylex.create({
   horizontal: {
     borderStartStartRadius: {
@@ -446,11 +476,11 @@ const groupStyles = stylex.create({
     },
     borderStartEndRadius: {
       default: 0,
-      ':last-child': radiusVars['--radius-element'],
+      [IS_LAST_ITEM]: radiusVars['--radius-element'],
     },
     borderEndEndRadius: {
       default: 0,
-      ':last-child': radiusVars['--radius-element'],
+      [IS_LAST_ITEM]: radiusVars['--radius-element'],
     },
     borderInlineStartWidth: {
       default: borderVars['--border-width'],
@@ -473,11 +503,11 @@ const groupStyles = stylex.create({
     },
     borderEndStartRadius: {
       default: 0,
-      ':last-child': radiusVars['--radius-element'],
+      [IS_LAST_ITEM]: radiusVars['--radius-element'],
     },
     borderEndEndRadius: {
       default: 0,
-      ':last-child': radiusVars['--radius-element'],
+      [IS_LAST_ITEM]: radiusVars['--radius-element'],
     },
     borderBlockStartWidth: {
       default: borderVars['--border-width'],
