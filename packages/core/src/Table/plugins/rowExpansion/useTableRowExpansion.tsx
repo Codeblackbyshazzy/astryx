@@ -439,10 +439,7 @@ export function useTableRowExpansion<T extends Record<string, unknown>>(
                 ? originalRenderCell(item)
                 : String(
                     ((item as Record<string, unknown>)[col.key] as
-                      | string
-                      | number
-                      | null
-                      | undefined) ?? '',
+                      string | number | null | undefined) ?? '',
                   );
 
               if (depth === 0) {
@@ -573,7 +570,7 @@ export function useTableRowExpansion<T extends Record<string, unknown>>(
             ...props.htmlProps,
             onClick: () => onToggle(key),
           },
-          styles: [...props.styles, expansionStyles.clickableRow],
+          xstyle: [...props.xstyle, expansionStyles.clickableRow],
         };
       },
     }),

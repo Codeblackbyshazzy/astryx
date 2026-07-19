@@ -307,7 +307,7 @@ export function useTableGroupedRows<T extends Record<string, unknown>>(
             onClick: toggle,
             'aria-expanded': !collapsed,
           },
-          styles: [...props.styles, styles.headerRow],
+          xstyle: [...props.xstyle, styles.headerRow],
           children: (
             // colSpan larger than the column count is clamped by the browser
             // to the actual number of columns, so the header always spans the
